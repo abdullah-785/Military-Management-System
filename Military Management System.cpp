@@ -2,6 +2,7 @@
  #include<Windows.h>
  #include<conio.h>
  #include<fstream>
+ #include<string>
  
  using namespace std;
  struct Node{
@@ -88,13 +89,18 @@
 		
  }
  
- 
- 
- 
 //Class of Central Authority 
 class Admin: public Person{
  	public:
  		Node *Registration(string d,Node *temp);
+ 		void display(Node *temp);
+ 		void deletion(Node *temp, string num);
+ 		Node *Min(Node* root);		
+ 		Node *getParent(Node *temp,string n);
+ 		void DeleteRecordFromDatabase(string d);
+ 		string displayRecordDecision();
+ 		void displayRecord();
+ 		
  		void recordOfArmyCheif(Node *temp);
  		void reOfgenerals(Node *temp);
  		void reOflieutenant(Node *temp);
@@ -105,10 +111,10 @@ class Admin: public Person{
  		void reOfSecondLieutenant(Node *temp);
  		void reOfSubedar(Node *temp);
  		void reOfSoliders(Node *temp); 
- 		
  		void reStoreSelection(string d,Node *temp);
  };
  
+ //Registration function of Admin
 Node *Admin::Registration(string d,Node *temp){
 	//The heighest star is 10.
 		string star = "10";
@@ -141,46 +147,171 @@ Node *Admin::Registration(string d,Node *temp){
 return temp;
 }
 
+//Display function of Admin
+void Admin::display(Node *temp){
+	if(temp!=NULL){
+		display(temp->left);
+		cout<<"\t\t\tId : "<<temp->id<<endl
+		<<"\t\t\tName : "<<temp->name<<endl
+		<<"\t\t\tGendar : "<<temp->gendar<<endl
+		<<"\t\t\tDOB : "<<temp->DOB<<endl
+		<<"\t\t\tCity : "<<temp->city<<endl;
+		display(temp->right);
+	}
+}
+
+//Delete function of admin
+void Admin::deletion(Node *temp, string d){
+	Node *parent, *min;
+	string number;
+	this->DeleteRecordFromDatabase(d);
+	if(temp==NULL){
+		cout<<"Number Not Found";
+	} else if(temp->id==d){
+		
+	if(temp->left == NULL && temp->right == NULL)
+	{
+		parent = this->getParent(root,temp->id);
+		if(parent->left == temp)
+			parent->left = NULL;
+		else if(parent->right == temp)
+			parent->right = NULL;
+		delete temp;
+	}
+}
+else if((temp->left == NULL && temp->right != NULL) || (temp->left == NULL && temp->right != NULL)){
+	parent = this->getParent(root,temp->id);
+	if(temp->left != NULL){
+		if(parent->left == temp)
+		parent->left = temp->left;
+	else if(parent->right == temp)
+		parent->right = temp->right;
+	}
+	else if(temp->right != NULL){
+		if(parent->left == temp)
+		parent->left = temp->left;
+	else if(parent->right == temp)
+		parent->right = temp->right;
+	}
+	delete temp;
+}
+else if((temp->left != NULL) && (temp->right != NULL)){
+	min = this->Min(temp->right);
+	this->deletion(temp->right,min->id);
+	temp->id = number;
+}
+
+}
+
+//To find Minimun value
+Node *Admin::Min(Node* root) {
+	Node* tmp = root;  
+    while (tmp->left != NULL) {  
+        tmp = tmp->left;  
+    }  
+    cout<<tmp->id; 
+    return root;
+} 
+
+
+
+Node *Admin::getParent(Node *temp,string n){
+	if(temp->id==n){
+		cout<<"Root have no parent";
+	}else{
+	while(temp!=NULL){
+		if(temp->left->id==n || temp->right->id==n){
+			cout<<temp->id<<endl;
+			return temp;
+			break;
+		}else if(temp->id>n){
+			temp=temp->left;
+		}
+		else if(temp->id<n){
+			temp=temp->right;
+		}
+	}	
+	}
+}
+
+void Admin::DeleteRecordFromDatabase(string d){
+	remove(("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\ArmyChief/" + d + ".txt").c_str()); 
+	
+}
+
+string Admin::displayRecordDecision(){
+	string x = this->selectRank();
+	string path;
+	if(x == "10"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\ArmyChief/.\\History.txt";
+	}else if(x == "9"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfgenerals/.\\History.txt";
+	}else if(x == "8"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOflieutenant/.\\History.txt";
+	}else if(x == "7"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfKarnals/.\\History.txt";
+	}else if(x == "6"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfBrigadier/.\\History.txt";
+	}else if(x == "5"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOdMajor/.\\History.txt";
+	}else if(x == "4"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfCaptionLieutenant/.\\History.txt";
+	}else if(x == "3"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSecondLieutenant/.\\History.txt";
+	}else if(x == "2"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSubedar/.\\History.txt";
+	}else if(x == "1"){
+	 return path= "C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSoliders/.\\History.txt";
+	}
+	
+	
+}
+
+void Admin::displayRecord(){
+	
+	string path = this->displayRecordDecision();
+
+	ifstream infile;
+	string line;
+	infile.open(path.c_str());
+		while(getline(infile,line))
+	 {
+		cout<<line<<endl;
+	}
+	
+	
+	
+	
+}
+
+
+
 
 void Admin::reStoreSelection(string d,Node *temp){
-	//int x;
-	//x = int(d);
- 	switch(9){
-			case 10:
-				this->recordOfArmyCheif(temp);
-				break;
-				case 9:
-					reOfgenerals(temp);
-						break;
-						case 8:
-							reOflieutenant(temp);
-							break;
-							case 7:
-								reOfKarnals(temp);
-								break;
-								case 6:
-									reOfBrigadier(temp);
-									break;
-									case 5:
-										reOdMajor(temp);
-										break;
-										case 4:
-											reOfCaptionLieutenant(temp);
-											break;
-											case 3:
-												reOfSecondLieutenant(temp);
-												break;
-												case 2:
-													reOfSubedar(temp);
-													break;
-													case 1:
-														reOfSoliders(temp);
-														break;
-													default:
-														cout<<"Invalid choice";
-														break;
-								
-		}
+ 	if(d=="10"){
+	 this->recordOfArmyCheif(temp);
+	 } else if(d=="9"){
+	 	reOfgenerals(temp);
+	 } else if(d=="8"){
+	 	reOflieutenant(temp);
+	 } else if(d=="7"){
+	 	reOfKarnals(temp);
+	 } else if(d=="6"){
+	 	reOfBrigadier(temp);
+	 } else if(d=="5"){
+	 	reOdMajor(temp);
+	 } else if(d=="4"){
+	 	reOfCaptionLieutenant(temp);
+	 } else if(d=="3"){
+	 	reOfSecondLieutenant(temp);
+	 } else if(d=="2"){
+	 	reOfSubedar(temp);
+	 } else if(d=="1"){
+	 	reOfSoliders(temp);
+	 } else{
+	 	cout<<"Invalid value";
+	 }
+
  }
  
 
@@ -322,10 +453,10 @@ void Admin::reOfSoliders(Node *temp) {
 
  
  
- 
- 
+//Main Functin 
  int main(){
  	Admin c;
+ 	
  	system("COLOR 0A");
 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
 	<<"\t\t\t\t\t@@ _______________________________________________________________________________________ @@\n"
@@ -356,29 +487,61 @@ cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Registration                               |\n"
+		<<"\t\t\t\t\t\t|             1  >> Admin Portal                               |\n"
 		<<"\t\t\t\t\t\t|             2  >> Army Cheif Portal                                 |\n"
 		<<"\t\t\t\t\t\t|             3  >> Generals Portal                                   |\n"
 		<<"\t\t\t\t\t\t|             4  >> Lieutenant Portal                                 |\n"
 		<<"\t\t\t\t\t\t|             5  >> Karnals Portal                                    |\n"
 		<<"\t\t\t\t\t\t|             6  >> Brigadier Portal                                  |\n"
 		<<"\t\t\t\t\t\t|             7  >> Major Portal                                      |\n"
-		<<"\t\t\t\t\t\t|             7  >> Caption Lieutenant Portal                         |\n"
-		<<"\t\t\t\t\t\t|             7  >> Second Lieutenant Portal                             |\n"
-		<<"\t\t\t\t\t\t|             7  >> Subedar Portal                                       |\n"
-		<<"\t\t\t\t\t\t|             7  >> Email                                         |\n"
-		<<"\t\t\t\t\t\t|             7  >> Exit                                          |\n"
+		<<"\t\t\t\t\t\t|             8  >> Caption Lieutenant Portal                         |\n"
+		<<"\t\t\t\t\t\t|             9  >> Second Lieutenant Portal                             |\n"
+		<<"\t\t\t\t\t\t|             10  >> Subedar Portal                                       |\n"
+		<<"\t\t\t\t\t\t|             11  >> Email                                         |\n"
+		<<"\t\t\t\t\t\t|             12  >> Exit                                          |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 	 
 	 cout<<"ENTER CHOICE : "; 
 	 cin>>choice;
 	 switch(choice){
 	 	case 1:
-	 		{
+	 		
+	 			
+	 		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || LOGIN AS || >>\n\n"
+		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
+		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
+		<<"\t\t\t\t\t\t|                                           	                  |\n"
+		<<"\t\t\t\t\t\t|             1  >> Registration                               |\n"
+		<<"\t\t\t\t\t\t|             2  >> Display Record                                          |\n"
+		<<"\t\t\t\t\t\t|             3  >> Delete Record                                         |\n"
+		<<"\t\t\t\t\t\t|             4  >> Back                                          |\n"
+		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
+	 	int adminChoice;		
+	 	cout<<"Enter Choice : "; cin>>adminChoice;
+	 	if(adminChoice==1){
 	 		string x = c.selectRank();
  			c.Registration(x,c.root);
  			cin.ignore();
-		}
+ 			system("cls");
+ 			c.display(c.root);
+ 			main();
+		 } else if(adminChoice==2){
+		 	
+		 	c.displayRecord();
+		 	
+		 	
+		 }else if(adminChoice==3){
+			string d;
+			 cout<<"Enter id for deletion : ";
+			  cin>>d;
+			 c.deletion(c.root,d);
+				 	
+		 }else if(adminChoice==4){
+		 	main();
+		 }else{
+		 	cout<<"Invalid Choice\n\n";
+		 }	
+
 	 		break;
 	 		case 2:
 	 			break;
