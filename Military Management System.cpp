@@ -20,7 +20,7 @@
  	public:
  		Person();
  		Node *Registration(string d,Node *temp);
- 		void recordOfArmyCheif(Node *temp);
+ 		//void recordOfArmyCheif(Node *temp);
  		string selectRank();
  		
  };
@@ -100,18 +100,14 @@ class Admin: public Person{
  		void DeleteRecordFromDatabase(string d);
  		string displayRecordDecision();
  		void displayRecord();
- 		
- 		void recordOfArmyCheif(Node *temp);
- 		void reOfgenerals(Node *temp);
- 		void reOflieutenant(Node *temp);
- 		void reOfKarnals(Node *temp);
- 		void reOfBrigadier(Node *temp);
- 		void reOdMajor(Node *temp);
- 		void reOfCaptionLieutenant(Node *temp);
- 		void reOfSecondLieutenant(Node *temp);
- 		void reOfSubedar(Node *temp);
- 		void reOfSoliders(Node *temp); 
- 		void reStoreSelection(string d,Node *temp);
+		void reStoreAccordingToId(string path,Node *temp);
+		string reStoreSelection(string d,Node *temp);
+		void storeHistory(string path,Node *temp);		
+		
+		void searchingRecord();
+		
+		string searchRecordSelection(string d);
+
  };
  
  //Registration function of Admin
@@ -279,179 +275,122 @@ void Admin::displayRecord(){
 		cout<<line<<endl;
 	}
 	
-	
-	
-	
 }
 
 
-
-
-void Admin::reStoreSelection(string d,Node *temp){
+string Admin::reStoreSelection(string d,Node *temp){
+	string path;
  	if(d=="10"){
-	 this->recordOfArmyCheif(temp);
+		 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\ArmyChief/");
 	 } else if(d=="9"){
-	 	reOfgenerals(temp);
+	 	 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfgenerals/");
 	 } else if(d=="8"){
-	 	reOflieutenant(temp);
+	 	 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOflieutenant/");
 	 } else if(d=="7"){
-	 	reOfKarnals(temp);
+		 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfKarnals/");
 	 } else if(d=="6"){
-	 	reOfBrigadier(temp);
+		 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfBrigadier/");
 	 } else if(d=="5"){
-	 	reOdMajor(temp);
+		 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOdMajor/");
 	 } else if(d=="4"){
-	 	reOfCaptionLieutenant(temp);
+		 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfCaptionLieutenant/");
 	 } else if(d=="3"){
-	 	reOfSecondLieutenant(temp);
+		 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSecondLieutenant/");
 	 } else if(d=="2"){
-	 	reOfSubedar(temp);
+	 	 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSubedar/");
 	 } else if(d=="1"){
-	 	reOfSoliders(temp);
+	 	 path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSoliders/");
 	 } else{
 	 	cout<<"Invalid value";
 	 }
 
+	this->reStoreAccordingToId(path,temp);
+
  }
- 
 
 
-void Admin::recordOfArmyCheif(Node *temp) {
+void Admin::reStoreAccordingToId(string path,Node *temp){
+	
 	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\ArmyChief/"+temp->id+".txt";
-	myfile.open(path.c_str());
+	myfile.open((path+temp->id+".txt").c_str());
 	myfile<<"\t\t****************************************************************"<<endl
 	<<"\t\t\tId : "<<temp->id<<endl
 	<<"\t\t\tName : "<<temp->name<<endl
 	<<"\t\t\tGendar : "<<temp->gendar<<endl
 	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
+	<<"\t\t\tCity : "<<temp->city<<endl
+	<<"\t\t****************************************************************"<<endl;
 	myfile.close();
 
+	storeHistory(path,temp);
+
 }
-void Admin::reOfgenerals(Node *temp) {
+
+void Admin::storeHistory(string path,Node *temp){
 	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfgenerals/"+temp->id+".txt";
-	myfile.open(path.c_str());
+	myfile.open((path+"History.txt").c_str(),ios::app);
 	myfile<<"\t\t****************************************************************"<<endl
 	<<"\t\t\tId : "<<temp->id<<endl
 	<<"\t\t\tName : "<<temp->name<<endl
 	<<"\t\t\tGendar : "<<temp->gendar<<endl
 	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
+	<<"\t\t\tCity : "<<temp->city<<endl
+	<<"\t\t****************************************************************"<<endl;
 	myfile.close();
-
 }
 
-void Admin::reOflieutenant(Node *temp) {
-	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOflieutenant/"+temp->id+".txt";
-	myfile.open(path.c_str());
-	myfile<<"\t\t****************************************************************"<<endl
-	<<"\t\t\tId : "<<temp->id<<endl
-	<<"\t\t\tName : "<<temp->name<<endl
-	<<"\t\t\tGendar : "<<temp->gendar<<endl
-	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
-	myfile.close();
 
-}
-void Admin::reOfKarnals(Node *temp) {
-	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfKarnals/"+temp->id+".txt";
-	myfile.open(path.c_str());
-	myfile<<"\t\t****************************************************************"<<endl
-	<<"\t\t\tId : "<<temp->id<<endl
-	<<"\t\t\tName : "<<temp->name<<endl
-	<<"\t\t\tGendar : "<<temp->gendar<<endl
-	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
-	myfile.close();
+string Admin::searchRecordSelection(string d){
+	string path;
+ 	if(d=="10"){
+		return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\ArmyChief/");
+	 } else if(d=="9"){
+	 	return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfgenerals/");
+	 } else if(d=="8"){
+	 	return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOflieutenant/");
+	 } else if(d=="7"){
+		return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfKarnals/");
+	 } else if(d=="6"){
+		return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfBrigadier/");
+	 } else if(d=="5"){
+		return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOdMajor/");
+	 } else if(d=="4"){
+		return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfCaptionLieutenant/");
+	 } else if(d=="3"){
+		return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSecondLieutenant/");
+	 } else if(d=="2"){
+	 	return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSubedar/");
+	 } else if(d=="1"){
+	 	return path= ("C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSoliders/");
+	 } else{
+	 	cout<<"Invalid value";
+	 }
 
-}
-void Admin::reOfBrigadier(Node *temp) {
-	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfBrigadier/"+temp->id+".txt";
-	myfile.open(path.c_str());
-	myfile<<"\t\t****************************************************************"<<endl
-	<<"\t\t\tId : "<<temp->id<<endl
-	<<"\t\t\tName : "<<temp->name<<endl
-	<<"\t\t\tGendar : "<<temp->gendar<<endl
-	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
-	myfile.close();
+	
 
-}
-void Admin::reOdMajor(Node *temp) {
-	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOdMajor/"+temp->id+".txt";
-	myfile.open(path.c_str());
-	myfile<<"\t\t****************************************************************"<<endl
-	<<"\t\t\tId : "<<temp->id<<endl
-	<<"\t\t\tName : "<<temp->name<<endl
-	<<"\t\t\tGendar : "<<temp->gendar<<endl
-	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
-	myfile.close();
+ }
 
-}
-void Admin::reOfCaptionLieutenant(Node *temp) {
-	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfCaptionLieutenant/"+temp->id+".txt";
-	myfile.open(path.c_str());
-	myfile<<"\t\t****************************************************************"<<endl
-	<<"\t\t\tId : "<<temp->id<<endl
-	<<"\t\t\tName : "<<temp->name<<endl
-	<<"\t\t\tGendar : "<<temp->gendar<<endl
-	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
-	myfile.close();
-
+void Admin::searchingRecord(){
+	string returnRank= this->selectRank();
+	string path = this->searchRecordSelection(returnRank);
+	string search,line;
+	cout<<"Enter id for search : "; cin>>search;
+	
+	string asd = search+".txt";
+	ifstream fin;
+	fin.open((path+asd).c_str());
+	if(!fin){
+		cout<<"Record is not Found\n";
+	}else {
+		while(getline(fin,line)){
+			cout<<line<<endl;
+		}
+	}
+	
 }
 
-void Admin::reOfSecondLieutenant(Node *temp) {
-	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSecondLieutenant/"+temp->id+".txt";
-	myfile.open(path.c_str());
-	myfile<<"\t\t****************************************************************"<<endl
-	<<"\t\t\tId : "<<temp->id<<endl
-	<<"\t\t\tName : "<<temp->name<<endl
-	<<"\t\t\tGendar : "<<temp->gendar<<endl
-	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
-	myfile.close();
 
-}
 
-void Admin::reOfSubedar(Node *temp) {
-	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSubedar/"+temp->id+".txt";
-	myfile.open(path.c_str());
-	myfile<<"\t\t****************************************************************"<<endl
-	<<"\t\t\tId : "<<temp->id<<endl
-	<<"\t\t\tName : "<<temp->name<<endl
-	<<"\t\t\tGendar : "<<temp->gendar<<endl
-	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
-	myfile.close();
-
-}
-
-void Admin::reOfSoliders(Node *temp) {
-	ofstream myfile;
-	string path="C:\\Users\\Abdullah\\Documents\\Semester projects\\Military Management System project\\Military-Management-System\\Central Autority\\Registration\\reOfSoliders/"+temp->id+".txt";
-	myfile.open(path.c_str());
-	myfile<<"\t\t****************************************************************"<<endl
-	<<"\t\t\tId : "<<temp->id<<endl
-	<<"\t\t\tName : "<<temp->name<<endl
-	<<"\t\t\tGendar : "<<temp->gendar<<endl
-	<<"\t\t\tDOB : "<<temp->DOB<<endl
-	<<"\t\t\tCity : "<<temp->city<<endl;
-	myfile.close();
-
-}
-
- 
  
 //Main Functin 
  int main(){
@@ -505,16 +444,16 @@ cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 cin>>choice;
 	 switch(choice){
 	 	case 1:
-	 		
-	 			
+	 				
 	 		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || LOGIN AS || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
 		<<"\t\t\t\t\t\t|             1  >> Registration                               |\n"
 		<<"\t\t\t\t\t\t|             2  >> Display Record                                          |\n"
-		<<"\t\t\t\t\t\t|             3  >> Delete Record                                         |\n"
-		<<"\t\t\t\t\t\t|             4  >> Back                                          |\n"
+		<<"\t\t\t\t\t\t|             3  >> Search Record                               |\n"
+		<<"\t\t\t\t\t\t|             4  >> Delete Record                                         |\n"
+		<<"\t\t\t\t\t\t|             5  >> Back                                          |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 	 	int adminChoice;		
 	 	cout<<"Enter Choice : "; cin>>adminChoice;
@@ -526,20 +465,18 @@ cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  			c.display(c.root);
  			main();
 		 } else if(adminChoice==2){
-		 	
 		 	c.displayRecord();
-		 	
-		 	
 		 }else if(adminChoice==3){
-			string d;
+			c.searchingRecord();
+				 	
+		 }else if(adminChoice==4){
+		 	string d;
 			 cout<<"Enter id for deletion : ";
 			  cin>>d;
 			 c.deletion(c.root,d);
-				 	
-		 }else if(adminChoice==4){
+		 	
+		 }else if(adminChoice==5){
 		 	main();
-		 }else{
-		 	cout<<"Invalid Choice\n\n";
 		 }	
 
 	 		break;
