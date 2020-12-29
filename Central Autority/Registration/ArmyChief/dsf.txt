@@ -1,8 +1,7 @@
-name : Genrals
 		****************************************************************
-			Id : g123
-			Name : gggg
-			Gendar : ggegg
-			DOB : gwea
-			City : geasdfa
+			Id : dsf
+			Name : adsf
+			Gendar : asd
+			DOB : asdf
+			City : asdf
 		****************************************************************

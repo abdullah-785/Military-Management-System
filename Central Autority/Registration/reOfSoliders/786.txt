@@ -1,8 +1,7 @@
-name : Genrals
 		****************************************************************
-			Id : g123
-			Name : gggg
-			Gendar : ggegg
-			DOB : gwea
-			City : geasdfa
+			Id : 786
+			Name : Butt
+			Gendar : Male
+			DOB : 789
+			City : Sialkot
 		****************************************************************

@@ -1,8 +1,9 @@
-name : Genrals
 		****************************************************************
-			Id : g123
-			Name : gggg
-			Gendar : ggegg
-			DOB : gwea
-			City : geasdfa
+			Id : sdf
+			Name : asdf
+			Age : 42
+			Height : 3
+			Gendar : asdf
+			DOB : safd
+			City : sf
 		****************************************************************
