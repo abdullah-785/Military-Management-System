@@ -1,8 +1,9 @@
-name : Brigadier
 		****************************************************************
-			Id : 34
-			Name : sdfg
-			Gendar : dfg
-			DOB : dfg
-			City : dg
+			Id : k22
+			Name : butt
+			Age : 19
+			Height : 160
+			Gendar : Male
+			DOB : 13/04/2001
+			City : Sialkot
 		****************************************************************

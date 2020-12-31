@@ -29,6 +29,7 @@
 	int age;
  	float salary;
  	float height;
+ 	string annocun;
  	Node *left;
  	Node *right;
  };
@@ -41,6 +42,8 @@
  		Node *Registration(string d,Node *temp);
  		string selectRank();
  		bool login();
+ 		void Announcement(Node *temp);
+ 		void viewAnnouncement();
  		
  };
  
@@ -49,20 +52,21 @@
  }
  
  string Person::selectRank(){
+ 	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Rank Selection || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Army Cheif                                 |\n"
-		<<"\t\t\t\t\t\t|             2  >> Generals                                   |\n"
-		<<"\t\t\t\t\t\t|             3  >> Lieutenant                                 |\n"
-		<<"\t\t\t\t\t\t|             4  >> Karnals                                    |\n"
-		<<"\t\t\t\t\t\t|             5  >> Brigadier                                  |\n"
-		<<"\t\t\t\t\t\t|             6  >> Major                                      |\n"
-		<<"\t\t\t\t\t\t|             7  >> Caption Lieutenant                         |\n"
+		<<"\t\t\t\t\t\t|             1  >> Army Cheif                                    |\n"
+		<<"\t\t\t\t\t\t|             2  >> Generals                                      |\n"
+		<<"\t\t\t\t\t\t|             3  >> Lieutenant                                    |\n"
+		<<"\t\t\t\t\t\t|             4  >> Karnals                                       |\n"
+		<<"\t\t\t\t\t\t|             5  >> Brigadier                                     |\n"
+		<<"\t\t\t\t\t\t|             6  >> Major                                         |\n"
+		<<"\t\t\t\t\t\t|             7  >> Caption Lieutenant                            |\n"
 		<<"\t\t\t\t\t\t|             8  >> Second Lieutenant                             |\n"
 		<<"\t\t\t\t\t\t|             9  >> Subedar                                       |\n"
-		<<"\t\t\t\t\t\t|             10  >> Soliders                                         |\n"
+		<<"\t\t\t\t\t\t|             10  >> Soliders                                     |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -105,7 +109,7 @@
 														<<"Press any key...";
 														getch();
 														system("cls");
-														this->selectRank();
+														selectRank();
 								
 		}			
  }
@@ -142,6 +146,37 @@ bool Person::login(){
 }
 
 
+void Person::Announcement(Node *temp){
+	//string annocun;
+	string annocunFor;
+	cout<<"|***************************| << Announcement >> |***************************|\n";
+	cin.ignore();
+	cout<<"Announcement for : ";
+	getline(cin,annocunFor);
+	cout<<endl<<endl;
+	cout<<"Please Type -> " ;
+	getline(cin,temp->annocun);
+	
+	ofstream myfile;
+	myfile.open("Announcement.txt");
+	myfile<<"*******************************************"<<endl
+	<<"Announcement For -> "<<annocunFor<<endl<<endl
+	<<temp->annocun<<endl
+	<<"*******************************************"<<endl;
+	myfile.close();
+}
+
+void Person::viewAnnouncement(){
+	ifstream fin;
+	string line;
+	fin.open("Announcement.txt");
+	while(getline(fin,line)){
+		cout<<line<<endl;
+	}
+	
+}
+
+
 //Class of Central Authority 
 class Admin: public Person{
  	public:
@@ -174,10 +209,24 @@ Node *Admin::Registration(string d,Node *temp){
 		cout<<"Enter DOB : "; getline(cin,temp->DOB);
 		cout<<"Enter city : "; getline(cin,temp->city);
 		cout<<"Enter age : "; cin>>temp->age;
-		cout<<"Enter Height : "; cin>>temp->height; cin.ignore();
+		if(temp->age<0 || temp->age>30){
+			while(temp->age<0 || temp->age>30){
+			cout<<"\n\t\tPlease Enter age between 1-30\n\n";
+			cout<<"Enter age : "; cin>>temp->age;	
+			}
+		}
+		
+		cout<<"Enter Height : "; cin>>temp->height; cin.ignore(); //130
+		if(temp->height<0 || temp->height<160){
+			while(temp->height<=160){
+			cout<<"\n\t\tPlease Enter height above 160\n\n";
+			cout<<"Enter Heighty : "; cin>>temp->height;	cin.ignore();
+			}
+		}
 		cout<<"Enter Email : "; getline(cin,temp->email);
 		cout<<"Enter Password : "; getline(cin,temp->emailPass);
 		reStoreSelection(d,temp);
+		
 		
 		temp->left=NULL;
 		temp->right=NULL;
@@ -439,6 +488,8 @@ void Admin::storeHistory(string path,Node *temp){
 	myfile<<"\t\t****************************************************************"<<endl
 	<<"\t\t\tId : "<<temp->id<<endl
 	<<"\t\t\tName : "<<temp->name<<endl
+	<<"\t\t\tAge : "<<temp->age<<endl
+	<<"\t\t\tHeight : "<<temp->height<<endl
 	<<"\t\t\tGendar : "<<temp->gendar<<endl
 	<<"\t\t\tDOB : "<<temp->DOB<<endl
 	<<"\t\t\tCity : "<<temp->city<<endl
@@ -511,19 +562,20 @@ class Generals{
 
 
 string Generals::selectRank(){
+	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Generals Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Lieutenant                                 |\n"
-		<<"\t\t\t\t\t\t|             2  >> Karnals                                    |\n"
-		<<"\t\t\t\t\t\t|             3  >> Brigadier                                  |\n"
-		<<"\t\t\t\t\t\t|             4  >> Major                                      |\n"
-		<<"\t\t\t\t\t\t|             5  >> Caption Lieutenant                         |\n"
+		<<"\t\t\t\t\t\t|             1  >> Lieutenant                                    |\n"
+		<<"\t\t\t\t\t\t|             2  >> Karnals                                       |\n"
+		<<"\t\t\t\t\t\t|             3  >> Brigadier                                     |\n"
+		<<"\t\t\t\t\t\t|             4  >> Major                                         |\n"
+		<<"\t\t\t\t\t\t|             5  >> Caption Lieutenant                            |\n"
 		<<"\t\t\t\t\t\t|             6  >> Second Lieutenant                             |\n"
 		<<"\t\t\t\t\t\t|             7  >> Subedar                                       |\n"
-		<<"\t\t\t\t\t\t|             8  >> Soliders                                         |\n"
-		<<"\t\t\t\t\t\t|             0  >> Back                                         |\n"
+		<<"\t\t\t\t\t\t|             8  >> Soliders                                      |\n"
+		<<"\t\t\t\t\t\t|             0  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -617,18 +669,19 @@ class Lieutenant{
 
 
 string Lieutenant::selectRank(){
+	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Lieutenant Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Karnals                                    |\n"
-		<<"\t\t\t\t\t\t|             2  >> Brigadier                                  |\n"
-		<<"\t\t\t\t\t\t|             3  >> Major                                      |\n"
-		<<"\t\t\t\t\t\t|             4  >> Caption Lieutenant                         |\n"
+		<<"\t\t\t\t\t\t|             1  >> Karnals                                       |\n"
+		<<"\t\t\t\t\t\t|             2  >> Brigadier                                     |\n"
+		<<"\t\t\t\t\t\t|             3  >> Major                                         |\n"
+		<<"\t\t\t\t\t\t|             4  >> Caption Lieutenant                            |\n"
 		<<"\t\t\t\t\t\t|             5  >> Second Lieutenant                             |\n"
 		<<"\t\t\t\t\t\t|             6  >> Subedar                                       |\n"
-		<<"\t\t\t\t\t\t|             7  >> Soliders                                         |\n"
-		<<"\t\t\t\t\t\t|             0  >> back                                         |\n"
+		<<"\t\t\t\t\t\t|             7  >> Soliders                                      |\n"
+		<<"\t\t\t\t\t\t|             0  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -720,17 +773,18 @@ class Karnals{
 
 
 string Karnals::selectRank(){
+	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Lieutenant Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Brigadier                                  |\n"
-		<<"\t\t\t\t\t\t|             2  >> Major                                      |\n"
-		<<"\t\t\t\t\t\t|             3  >> Caption Lieutenant                         |\n"
+		<<"\t\t\t\t\t\t|             1  >> Brigadier                                     |\n"
+		<<"\t\t\t\t\t\t|             2  >> Major                                         |\n"
+		<<"\t\t\t\t\t\t|             3  >> Caption Lieutenant                            |\n"
 		<<"\t\t\t\t\t\t|             4  >> Second Lieutenant                             |\n"
 		<<"\t\t\t\t\t\t|             5  >> Subedar                                       |\n"
-		<<"\t\t\t\t\t\t|             6  >> Soliders                                         |\n"
-		<<"\t\t\t\t\t\t|             0  >> Back                                         |\n"
+		<<"\t\t\t\t\t\t|             6  >> Soliders                                      |\n"
+		<<"\t\t\t\t\t\t|             0  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -816,16 +870,17 @@ class Brigadier{
 
 
 string Brigadier::selectRank(){
+	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Brigadier Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Major                                      |\n"
-		<<"\t\t\t\t\t\t|             2  >> Caption Lieutenant                         |\n"
+		<<"\t\t\t\t\t\t|             1  >> Major                                         |\n"
+		<<"\t\t\t\t\t\t|             2  >> Caption Lieutenant                            |\n"
 		<<"\t\t\t\t\t\t|             3  >> Second Lieutenant                             |\n"
 		<<"\t\t\t\t\t\t|             4  >> Subedar                                       |\n"
-		<<"\t\t\t\t\t\t|             5  >> Soliders                                         |\n"
-		<<"\t\t\t\t\t\t|             0  >> back                                         |\n"
+		<<"\t\t\t\t\t\t|             5  >> Soliders                                      |\n"
+		<<"\t\t\t\t\t\t|             0  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -907,15 +962,16 @@ class Major{
 
 
 string Major::selectRank(){
+	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Major Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Caption Lieutenant                         |\n"
+		<<"\t\t\t\t\t\t|             1  >> Caption Lieutenant                            |\n"
 		<<"\t\t\t\t\t\t|             2  >> Second Lieutenant                             |\n"
 		<<"\t\t\t\t\t\t|             3  >> Subedar                                       |\n"
-		<<"\t\t\t\t\t\t|             4  >> Soliders                                         |\n"
-		<<"\t\t\t\t\t\t|             0  >> Back                                         |\n"
+		<<"\t\t\t\t\t\t|             4  >> Soliders                                      |\n"
+		<<"\t\t\t\t\t\t|             0  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -992,14 +1048,15 @@ class CaptionLieutenant{
 
 
 string CaptionLieutenant::selectRank(){
+	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Caption Lieutenant Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
 		<<"\t\t\t\t\t\t|             1  >> Second Lieutenant                             |\n"
 		<<"\t\t\t\t\t\t|             2  >> Subedar                                       |\n"
-		<<"\t\t\t\t\t\t|             3  >> Soliders                                         |\n"
-		<<"\t\t\t\t\t\t|             0  >> Back                                         |\n"
+		<<"\t\t\t\t\t\t|             3  >> Soliders                                      |\n"
+		<<"\t\t\t\t\t\t|             0  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -1070,13 +1127,14 @@ class SecondLieutenant{
 };
 
 string SecondLieutenant::selectRank(){
+	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Second Lieutenant Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
 		<<"\t\t\t\t\t\t|             1  >> Subedar                                       |\n"
-		<<"\t\t\t\t\t\t|             2  >> Soliders                                         |\n"
-		<<"\t\t\t\t\t\t|             0  >> Back                                         |\n"
+		<<"\t\t\t\t\t\t|             2  >> Soliders                                      |\n"
+		<<"\t\t\t\t\t\t|             0  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -1135,12 +1193,13 @@ class Subedar{
 };
 
 string Subedar::selectRank(){
+	system("cls");
  		 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Subedar Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Soliders                                         |\n"
-		<<"\t\t\t\t\t\t|             0  >> Back                                         |\n"
+		<<"\t\t\t\t\t\t|             1  >> Soliders                                      |\n"
+		<<"\t\t\t\t\t\t|             0  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 		int choice;
 		cout<<"Enter your choice : "; 
@@ -1191,15 +1250,17 @@ string Subedar::selectRank(){
 
 void adminPortal(){
 	Admin c;
+	system("cls");
 	cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || Admin Portal || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Registration                               |\n"
-		<<"\t\t\t\t\t\t|             2  >> Display Record                                          |\n"
-		<<"\t\t\t\t\t\t|             3  >> Search Record                               |\n"
-		<<"\t\t\t\t\t\t|             4  >> Delete Record                                         |\n"
-		<<"\t\t\t\t\t\t|             5  >> Back                                          |\n"
+		<<"\t\t\t\t\t\t|             1  >> Registration                                  |\n"
+		<<"\t\t\t\t\t\t|             2  >> Display Record                                |\n"
+		<<"\t\t\t\t\t\t|             3  >> Search Record                                 |\n"
+		<<"\t\t\t\t\t\t|             4  >> Delete Record                                 |\n"
+		<<"\t\t\t\t\t\t|             5  >> Announcement                                  |\n"
+		<<"\t\t\t\t\t\t|             6  >> log out                                       |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 	 	int adminChoice;		
 	 	cout<<"Enter Choice : "; cin>>adminChoice;
@@ -1217,10 +1278,12 @@ void adminPortal(){
 		 }else if(adminChoice==4){
 		 	string d=" ";
 			 c.deletion(c.root,d);
-		 	
 		 }else if(adminChoice==5){
-		 	main();
-}else{
+		 	c.Announcement(c.root);
+}else if(adminChoice==6){
+	main();
+}
+else{
 
 cout<<"Invalid choice\n\n\n"
 <<"\t\tPlease enter valid choice\n"
@@ -1279,7 +1342,7 @@ sub.displayRecord();
 /////////////////////////////Main Function 
  int main(){
  	Admin c;
- 	
+ 	system("cls");
  	system("COLOR 0A");
 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
 	<<"\t\t\t\t\t@@ _______________________________________________________________________________________ @@\n"
@@ -1304,24 +1367,23 @@ cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	cout<<"press any key...";	
 	getch();
 	system("cls");
-	
 	 int choice;
 	 cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t << || LOGIN AS || >>\n\n"
 		<<"\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n"
 		<<"\t\t\t\t\t\t _________________________________________________________________ \n"
 		<<"\t\t\t\t\t\t|                                           	                  |\n"
-		<<"\t\t\t\t\t\t|             1  >> Admin Portal                               |\n"
-		<<"\t\t\t\t\t\t|             2  >> Army Cheif Portal                                 |\n"
-		<<"\t\t\t\t\t\t|             3  >> Generals Portal                                   |\n"
-		<<"\t\t\t\t\t\t|             4  >> Lieutenant Portal                                 |\n"
-		<<"\t\t\t\t\t\t|             5  >> Karnals Portal                                    |\n"
-		<<"\t\t\t\t\t\t|             6  >> Brigadier Portal                                  |\n"
-		<<"\t\t\t\t\t\t|             7  >> Major Portal                                      |\n"
-		<<"\t\t\t\t\t\t|             8  >> Caption Lieutenant Portal                         |\n"
-		<<"\t\t\t\t\t\t|             9  >> Second Lieutenant Portal                             |\n"
-		<<"\t\t\t\t\t\t|             10  >> Subedar Portal                                       |\n"
-		<<"\t\t\t\t\t\t|             11  >> Email                                         |\n"
-		<<"\t\t\t\t\t\t|             12  >> Exit                                          |\n"
+		<<"\t\t\t\t\t\t|             1  >> Admin Portal                                  |\n"
+		<<"\t\t\t\t\t\t|             2  >> Army Cheif Portal                             |\n"
+		<<"\t\t\t\t\t\t|             3  >> Generals Portal                               |\n"
+		<<"\t\t\t\t\t\t|             4  >> Lieutenant Portal                             |\n"
+		<<"\t\t\t\t\t\t|             5  >> Karnals Portal                                |\n"
+		<<"\t\t\t\t\t\t|             6  >> Brigadier Portal                              |\n"
+		<<"\t\t\t\t\t\t|             7  >> Major Portal                                  |\n"
+		<<"\t\t\t\t\t\t|             8  >> Caption Lieutenant Portal                     |\n"
+		<<"\t\t\t\t\t\t|             9  >> Second Lieutenant Portal                      |\n"
+		<<"\t\t\t\t\t\t|             10  >> Subedar Portal                            	  |\n"
+		<<"\t\t\t\t\t\t|             11  >> Announcement                              	  |\n"
+		<<"\t\t\t\t\t\t|             12  >> Exit                                         |\n"
 		<<"\t\t\t\t\t\t|_________________________________________________________________|\n\n";
 	 
 	 cout<<"ENTER CHOICE : "; 
@@ -1464,9 +1526,18 @@ cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 											}
 	 											break;
 	 											case 11:
-	 												///////////
+	 												system("cls");
+	 												c.viewAnnouncement();
+	 												cout<<"\n\n\nPress any key...";
+	 												getch();
+	 												
+	 												main();
 	 												break;
 	 												case 12:
+	 													system("cls");
+	 													cout<<"\a\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tThanks For Coming...";
+														cout<<"\n\n\t\t\t\t\t\t\tHave A Nice Day!!!\n\n\n\n\n\n\n\n\n";
+	 													Sleep(5000);
 	 													break;
 	 													default:
 	 														cout<<"Invalid choice\n\n\n"

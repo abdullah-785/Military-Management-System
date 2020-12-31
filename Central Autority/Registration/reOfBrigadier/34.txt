@@ -1,7 +1,8 @@
-name : Brigadier
 		****************************************************************
 			Id : 34
 			Name : sdfg
+			Age : 23
+			Height : 170
 			Gendar : dfg
 			DOB : dfg
 			City : dg
